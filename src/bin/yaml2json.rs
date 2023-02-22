@@ -35,7 +35,10 @@ fn main() -> anyhow::Result<()> {
     }
 
     // Multiple yaml documents: output as json array
-    let result: Result<Vec<Value>, serde_yaml::Error> = docs.into_iter().map(|doc| serde_yaml::from_str(&doc)).collect();
+    let result: Result<Vec<Value>, serde_yaml::Error> = docs
+        .into_iter()
+        .map(|doc| serde_yaml::from_str(&doc))
+        .collect();
     serde_json::to_writer(&stdout, &result?)?;
 
     Ok(())
