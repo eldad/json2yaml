@@ -39,7 +39,11 @@ fn main() -> anyhow::Result<()> {
         .into_iter()
         .map(|doc| serde_yaml::from_str(&doc))
         .collect();
-    serde_json::to_writer(&stdout, &result?)?;
+
+    // Remove null documents
+    let filtered: Vec<Value> = result?.into_iter().filter(|v| v != &Value::Null).collect();
+
+    serde_json::to_writer(&stdout, &filtered)?;
 
     Ok(())
 }
